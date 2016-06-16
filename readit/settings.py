@@ -21,7 +21,7 @@ DJANGO_MODE = os.getenv('DJANGO_MODE', "Production").lower()
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = '45&qm7siq*cqy0k5404s82beql)-p71$605f%e*6+thmlrh0&='
+# SECRET_KEY = '45&qm7siq*cqy0k5404s82beql)-p71$605f%e*6+thmlrh0&='
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -30,7 +30,7 @@ if DJANGO_MODE == 'local':
 else:
     DEBUG = False
 
-#ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 
 
@@ -91,6 +91,17 @@ if DJANGO_MODE == 'local':
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+elif DJANGO_MODE == 'staging':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.getenv('DB_NAME'),
+            'USER': os.getenv('DB_USER'),
+            'PASSWORD': os.getenv('DB_PASSWORD'),
+            'HOST': os.getenv('DB_HOST', '127.0.0.1'),
+            'PORT': os.getenv('DB_PORT', '5432'),
         }
     }
 
